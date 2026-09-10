@@ -85,3 +85,28 @@ async def show_notes_command(message: types.Message):
 if __name__ == "__main__":
   scheduler.start()
   executor.start_polling(dp, skip_updates=True)
+import os
+from flask import Flask
+from threading import Thread
+
+app = Flask('')
+
+@app.route('/')
+def home():
+    I am alive!
+
+def run():
+    # Render сам передает порт через переменные окружения, по умолчанию берем 8080
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host='0.0.0.0', port=port)
+
+def keep_alive():
+    t = Thread(target=run)
+    t.start()
+
+if __name__ == "__main__":
+    # Сначала запускаем веб-сервер для Render, чтобы он не падал
+    keep_alive()
+    
+    # Твой основной код запуска бота (например, executor.start_polling или dp.start_polling)
+    # ... здесь твой запуск aiogram ...
