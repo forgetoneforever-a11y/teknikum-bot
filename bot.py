@@ -4,7 +4,9 @@ import os
 from aiogram import Bot, Dispatcher, executor, types
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-TOKEN = "ТВОЙ_ТОКЕН_БОТА_ЗДЕСЬ"  # Замени на реальный токен от BotFather
+# Твои данные из конфигурации
+TOKEN = "8874357037:AAHu8dEk97Mb9NT9MCfpEPCpDj7z6NQnKRo"
+ADMIN_ID = 8870678654
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=TOKEN)
@@ -23,13 +25,18 @@ def load_data():
 
 @dp.message_handler(commands=["start", "help"])
 async def send_welcome(message: types.Message):
+  # Проверяем, твой ли это ID, можно добавить персональное приветствие
+  user_name = (
+      "Хозяин" if message.from_user.id == ADMIN_ID else message.from_user.first_name
+  )
+
   keyboard = types.InlineKeyboardMarkup(row_width=2)
   keyboard.add(
       types.InlineKeyboardButton("📝 Мои заметки", callback_data="my_notes"),
       types.InlineKeyboardButton("⏰ Будильники", callback_data="my_alarms"),
   )
   await message.answer(
-      "Привет! Я бот-помощник техникум-проекта. Выбери действие:",
+      f"Привет, {user_name}! Я твой бот-помощник техникум-проекта. Выбери действие:",
       reply_markup=keyboard,
   )
 
