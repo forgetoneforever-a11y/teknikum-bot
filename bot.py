@@ -4,7 +4,7 @@ import os
 from aiogram import Bot, Dispatcher, executor, types
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-# Твои данные из конфигурации
+# Твои данные
 TOKEN = "8874357037:AAHu8dEk97Mb9NT9MCfpEPCpDj7z6NQnKRo"
 ADMIN_ID = 8870678654
 
@@ -25,7 +25,6 @@ def load_data():
 
 @dp.message_handler(commands=["start", "help"])
 async def send_welcome(message: types.Message):
-  # Проверяем, твой ли это ID, можно добавить персональное приветствие
   user_name = (
       "Хозяин" if message.from_user.id == ADMIN_ID else message.from_user.first_name
   )
